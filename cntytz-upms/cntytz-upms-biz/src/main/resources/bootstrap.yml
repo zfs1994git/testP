@@ -1,0 +1,22 @@
+server:
+  port: 4000
+
+spring:
+  application:
+    name: @artifactId@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @server.addr@
+      #        server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        namespace: @namespace.id@
+  profiles:
+    active: @profiles.active@
+logging:
+  level:
+    com.alibaba.nacos.client.config.impl.ClientWorker: error

@@ -1,0 +1,6 @@
+com\pig4cloud\pig\common\swagger\config\SwaggerProperties$Authorization.class
+com\pig4cloud\pig\common\swagger\config\SwaggerProperties$Contact.class
+com\pig4cloud\pig\common\swagger\config\SwaggerProperties.class
+com\pig4cloud\pig\common\swagger\SwaggerAutoConfiguration.class
+META-INF\spring-configuration-metadata.json
+com\pig4cloud\pig\common\swagger\config\SwaggerProperties$AuthorizationScope.class

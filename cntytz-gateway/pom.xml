@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /*
+  ~  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+  ~  *  <p>
+  ~  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+  ~  *  you may not use this file except in compliance with the License.
+  ~  *  You may obtain a copy of the License at
+  ~  *  <p>
+  ~  * https://www.gnu.org/licenses/lgpl.html
+  ~  *  <p>
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--	<parent>-->
+    <!--		<groupId>com.pig4cloud</groupId>-->
+    <!--		<artifactId>pig-cloud-dependencies-parent</artifactId>-->
+    <!--		<version>Hoxton.SR4</version>-->
+    <!--	</parent>-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <artifactId>cntytz-gateway</artifactId>
+    <packaging>jar</packaging>
+
+    <description>pig 服务网关，基于 spring cloud gateway</description>
+
+    <properties>
+        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <kaptcha.version>0.0.9</kaptcha.version>
+        <p6spy.version>3.9.0</p6spy.version>
+        <swagger.fox.version>2.9.2</swagger.fox.version>
+        <docker.plugin.version>0.32.0</docker.plugin.version>
+        <docker.host>http://172.17.0.111:2375</docker.host>
+        <docker.registry>172.17.0.111</docker.registry>
+        <docker.namespace>library</docker.namespace>
+        <docker.username>admin</docker.username>
+        <docker.password>Harbor12345</docker.password>
+        <pig.version>0.0.1-SNAPSHOT</pig.version>
+    </properties>
+
+
+    <dependencies>
+        <!--测试依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--gateway 网关依赖,内置webflux 依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <!--注册中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--验证码-->
+        <dependency>
+            <groupId>com.github.axet</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
+        </dependency>
+        <!--common-core-->
+        <dependency>
+            <groupId>com.cntytz</groupId>
+            <artifactId>cntytz-common-core</artifactId>
+            <version>${pig.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--接口文档-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.fox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.fox.version}</version>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--spring cloud alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <configuration>
+                        <finalName>${project.build.finalName}</finalName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <!--阿里云主仓库，代理了maven central和jcenter仓库-->
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+                <namespace.id>04639eb3-616b-4e7b-a2be-7699490f6636</namespace.id>
+                <server.addr>127.0.0.1:8848</server.addr>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+</project>

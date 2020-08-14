@@ -1,0 +1,6 @@
+H:\cntytz-communist-management\cntytz-common\cntytz-common-datasource\src\main\java\com\pig4cloud\pig\common\datasource\support\DataSourceConstants.java
+H:\cntytz-communist-management\cntytz-common\cntytz-common-datasource\src\main\java\com\pig4cloud\pig\common\datasource\config\JdbcDynamicDataSourceProvider.java
+H:\cntytz-communist-management\cntytz-common\cntytz-common-datasource\src\main\java\com\pig4cloud\pig\common\datasource\config\DataSourceProperties.java
+H:\cntytz-communist-management\cntytz-common\cntytz-common-datasource\src\main\java\com\pig4cloud\pig\common\datasource\annotation\EnableDynamicDataSource.java
+H:\cntytz-communist-management\cntytz-common\cntytz-common-datasource\src\main\java\com\pig4cloud\pig\common\datasource\config\LastParamDsProcessor.java
+H:\cntytz-communist-management\cntytz-common\cntytz-common-datasource\src\main\java\com\pig4cloud\pig\common\datasource\DynamicDataSourceAutoConfiguration.java

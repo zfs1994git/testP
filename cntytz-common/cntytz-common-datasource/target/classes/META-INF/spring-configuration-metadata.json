@@ -1,0 +1,43 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource",
+      "type": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties",
+      "sourceType": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.datasource.driver-class-name",
+      "type": "java.lang.String",
+      "description": "驱动类型",
+      "sourceType": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.password",
+      "type": "java.lang.String",
+      "description": "密码",
+      "sourceType": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.query-ds-sql",
+      "type": "java.lang.String",
+      "description": "查询数据源的SQL",
+      "sourceType": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties",
+      "defaultValue": "select * from gen_datasource_conf where del_flag = 0"
+    },
+    {
+      "name": "spring.datasource.url",
+      "type": "java.lang.String",
+      "description": "jdbcurl",
+      "sourceType": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.username",
+      "type": "java.lang.String",
+      "description": "用户名",
+      "sourceType": "com.pig4cloud.pig.common.datasource.config.DataSourceProperties"
+    }
+  ],
+  "hints": []
+}

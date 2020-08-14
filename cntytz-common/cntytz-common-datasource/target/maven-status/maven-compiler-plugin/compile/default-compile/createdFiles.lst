@@ -1,0 +1,7 @@
+com\pig4cloud\pig\common\datasource\config\JdbcDynamicDataSourceProvider.class
+com\pig4cloud\pig\common\datasource\annotation\EnableDynamicDataSource.class
+com\pig4cloud\pig\common\datasource\config\DataSourceProperties.class
+com\pig4cloud\pig\common\datasource\config\LastParamDsProcessor.class
+com\pig4cloud\pig\common\datasource\DynamicDataSourceAutoConfiguration.class
+com\pig4cloud\pig\common\datasource\support\DataSourceConstants.class
+META-INF\spring-configuration-metadata.json

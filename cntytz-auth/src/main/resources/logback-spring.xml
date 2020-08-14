@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /*
+  ~  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+  ~  *  <p>
+  ~  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+  ~  *  you may not use this file except in compliance with the License.
+  ~  *  You may obtain a copy of the License at
+  ~  *  <p>
+  ~  * https://www.gnu.org/licenses/lgpl.html
+  ~  *  <p>
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<configuration debug="false" scan="false">
+    <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
+    <property name="log.path" value="logs/${spring.application.name}"/>
+
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- Console log output -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Log file debug output -->
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Log file error output -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!--logback输出-->
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.150.217:5044</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "server_name":"cntytz-auth",
+                        "severity": "%level",
+                        "service": "${cntytz-auth:-}",
+                        "timestamp": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "exportable": "%X{X-Span-Export:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "rest": "%message",
+                        "stack_trace": "%exception"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!-- 设置超时时间， 默认没有，使用集群的时候可以加上-->
+        <!--<writeTimeout>30 seconds</writeTimeout>-->
+    </appender>
+
+    <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="debug"/>
+        <appender-ref ref="error"/>
+        <appender-ref ref="STASH"/>
+    </root>
+</configuration>
